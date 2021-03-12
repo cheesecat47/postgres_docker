@@ -1,8 +1,8 @@
-version: "3.7"
+version: "3.8"
 
 services: 
   postgres:
-    image: postgres:13.2
+    image: postgres
     ports: 
       - 54320:5432
     environment:
@@ -18,7 +18,7 @@ services:
     ports: 
       - 54330:80
     environment: 
-      PGADMIN_DEFAULT_EMAIL: cheesecat47@gmail.com
+      PGADMIN_DEFAULT_EMAIL: your-email@domain.com
       PGADMIN_DEFAULT_PASSWORD: qwer
     volumes:
       - pgadmin:/var/lib/pgadmin
