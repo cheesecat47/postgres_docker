@@ -18,8 +18,38 @@
 ```bash
 $ git clone https://github.com/cheesecat47/postgres_docker.git
 $ cd postgres_docker
+```
 
+### on Docker-compose
+
+```bash
 $ sudo docker-compose up -d && sudo docker-compose logs -f
+```
+
+### or Docker
+
+```bash
+$ sudo docker network create pg_network # name whatever you want
+
+$ sudo docker volume create postgres
+$ sudo docker run -d --name postgres_container \
+    -p 54320:5432 \
+    -e POSTGRES_USER=postgres \
+    -e POSTGRES_PASSWORD=1234 \
+    -e POSTGRES_DB=postgres \
+    -v `pwd`/sql/:/docker-entrypoint-initdb.d/ \
+    -v postgres:/var/lib/postgresql/data \
+    --network pg_network \
+    postgres
+
+$ sudo docker volume create pgadmin
+$ sudo docker run -d --name pgadmin_container \
+    -p 54330:80 \
+    -e 'PGADMIN_DEFAULT_EMAIL=your-email@domain.com' \
+    -e 'PGADMIN_DEFAULT_PASSWORD=qwer' \
+    -v pgadmin:/var/lib/pgadmin \
+    --network pg_network \
+    dpage/pgadmin4
 ```
 
 Go to <http://localhost:54330> to manage the DB.
