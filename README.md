@@ -15,42 +15,30 @@
 
 ## How to Use
 
-```bash
-$ git clone https://github.com/cheesecat47/postgres_docker.git
-$ cd postgres_docker
-```
+1. Clone this repository.
 
-### on Docker-compose
+   ```bash
+   $ git clone https://github.com/cheesecat47/postgres_docker.git
+   $ cd postgres_docker
+   ```
 
-```bash
-$ sudo docker-compose up -d && sudo docker-compose logs -f
-```
+1. Run config-generate.sh.
 
-### or Docker
+   ```bash
+   $ ./config-generate.sh
+    # example
+    # Input PostgreSQL password >> password
+    # Input pgAdmin e-mail >> cheesecat47@gmail.com
+    # Input pgAdmin password >> password
+    # Done!
+   ```
 
-```bash
-$ sudo docker network create pg_network # name whatever you want
+1. Run pg-manage.sh
 
-$ sudo docker volume create postgres
-$ sudo docker run -d --name postgres_container \
-    -p 54320:5432 \
-    -e POSTGRES_USER=postgres \
-    -e POSTGRES_PASSWORD=1234 \
-    -e POSTGRES_DB=postgres \
-    -v `pwd`/sql/:/docker-entrypoint-initdb.d/ \
-    -v postgres:/var/lib/postgresql/data \
-    --network pg_network \
-    postgres
-
-$ sudo docker volume create pgadmin
-$ sudo docker run -d --name pgadmin_container \
-    -p 54330:80 \
-    -e 'PGADMIN_DEFAULT_EMAIL=your-email@domain.com' \
-    -e 'PGADMIN_DEFAULT_PASSWORD=qwer' \
-    -v pgadmin:/var/lib/pgadmin \
-    --network pg_network \
-    dpage/pgadmin4
-```
+    ```bash
+    $ ./pg-manage.sh -up
+    $ ./pg-manage.sh -down
+    ```
 
 Go to <http://localhost:54330> to manage the DB.
 
@@ -60,22 +48,20 @@ For more information, visit [Here](https://cheesecat47.github.io/devblog/docker/
 
 ## Services
 
-|    Name    |                    Link                    |
-| :--------: | :----------------------------------------: |
-| PostgreSQL |    <https://hub.docker.com/_/postgres>     |
-|  pgAdmin4  | <https://hub.docker.com/r/dpage/pgadmin4/> |
+|    Name    | Version |                    Link                    |
+| :--------: | :-----: | :----------------------------------------: |
+| PostgreSQL |  13.2   |    <https://hub.docker.com/_/postgres>     |
+|  pgAdmin4  |    -    | <https://hub.docker.com/r/dpage/pgadmin4/> |
 
 &nbsp;
 
 ## Environment Variables
 
-|  Service   |      Variable Name       |                                           Description                                           |
-| :--------: | :----------------------: | :---------------------------------------------------------------------------------------------: |
-| PostgreSQL |    POSTGRES_PASSWORD     | Required. This is set as superuser pw. The default superuser is defined by the `POSTGRES_USER`. |
-| PostgreSQL |      POSTGRES_USER       |       Optional. If it is not specified, then the default user of `postgres` will be used.       |
-| PostgreSQL |       POSTGRES_DB        |        Optional. If it is not specified, then the value of `POSTGRES_USER` will be used.        |
-|  pgAdmin4  |  PGADMIN_DEFAULT_EMAIL   |            Required. It is used when setting up the initial admin account to login.             |
-|  pgAdmin4  | PGADMIN_DEFAULT_PASSWORD |            Required. It is used when setting up the initial admin account to login.             |
+|  Service   |      Variable Name       |                                      Description                                      |
+| :--------: | :----------------------: | :-----------------------------------------------------------------------------------: |
+| PostgreSQL |    POSTGRES_PASSWORD     | This is set as superuser pw. The default superuser is defined by the `POSTGRES_USER`. |
+|  pgAdmin4  |  PGADMIN_DEFAULT_EMAIL   |            It is used when setting up the initial admin account to login.             |
+|  pgAdmin4  | PGADMIN_DEFAULT_PASSWORD |            It is used when setting up the initial admin account to login.             |
 
 &nbsp;
 

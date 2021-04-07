@@ -2,13 +2,11 @@ version: "3.8"
 
 services: 
   postgres:
-    image: postgres
+    image: postgres:13.2
     ports: 
       - 54320:5432
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 1234
-      POSTGRES_DB: postgres
+      POSTGRES_PASSWORD: "${PG_PASSWORD}"
     volumes:
       - ./sql/:/docker-entrypoint-initdb.d/
       - postgres:/var/lib/postgresql/data
@@ -18,8 +16,8 @@ services:
     ports: 
       - 54330:80
     environment: 
-      PGADMIN_DEFAULT_EMAIL: your-email@domain.com
-      PGADMIN_DEFAULT_PASSWORD: qwer
+      PGADMIN_DEFAULT_EMAIL: "${PGADMIN_EMAIL}"
+      PGADMIN_DEFAULT_PASSWORD: "${PGADMIN_PASSWORD}"
     volumes:
       - pgadmin:/var/lib/pgadmin
 
